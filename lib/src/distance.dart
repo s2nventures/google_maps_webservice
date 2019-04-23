@@ -16,11 +16,14 @@ class GoogleDistanceMatrix extends GoogleWebService {
     String apiKey,
     String baseUrl,
     Client httpClient,
+    Map<String, String> headers,
   }) : super(
-            apiKey: apiKey,
-            baseUrl: baseUrl,
-            url: _distanceUrl,
-            httpClient: httpClient);
+          apiKey: apiKey,
+          baseUrl: baseUrl,
+          url: _distanceUrl,
+          httpClient: httpClient,
+          headers: headers,
+        );
 
   Future<DistanceResponse> _distance(
     List<dynamic> origin,

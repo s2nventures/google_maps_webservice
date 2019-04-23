@@ -23,11 +23,14 @@ class GoogleMapsPlaces extends GoogleWebService {
     String apiKey,
     String baseUrl,
     Client httpClient,
+    Map<String, String> headers,
   }) : super(
-            apiKey: apiKey,
-            baseUrl: baseUrl,
-            url: _placesUrl,
-            httpClient: httpClient);
+          apiKey: apiKey,
+          baseUrl: baseUrl,
+          url: _placesUrl,
+          httpClient: httpClient,
+          headers: headers,
+        );
 
   Future<PlacesSearchResponse> searchNearbyWithRadius(
     Location location,

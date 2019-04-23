@@ -2,7 +2,9 @@ library google_maps_webservice.directions.src;
 
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:http/http.dart';
+
 import 'core.dart';
 import 'utils.dart';
 
@@ -14,11 +16,13 @@ class GoogleMapsDirections extends GoogleWebService {
     String apiKey,
     String baseUrl,
     Client httpClient,
+    Map<String, String> headers,
   }) : super(
           apiKey: apiKey,
           baseUrl: baseUrl,
           url: _directionsUrl,
           httpClient: httpClient,
+          headers: headers,
         );
 
   Future<DirectionsResponse> directions(

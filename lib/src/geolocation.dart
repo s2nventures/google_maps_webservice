@@ -2,7 +2,9 @@ library google_maps_webservice.geolocation.src;
 
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:http/http.dart';
+
 import 'core.dart';
 import 'utils.dart';
 
@@ -16,11 +18,13 @@ class GoogleMapsGeolocation extends GoogleWebService {
     String apiKey,
     String baseUrl,
     Client httpClient,
+    Map<String, String> headers,
   }) : super(
           apiKey: apiKey,
           baseUrl: baseUrl ?? _baseUrl,
           url: _geolocationUrl,
           httpClient: httpClient,
+          headers: headers,
         );
 
   Future<GeolocationResponse> getGeolocation(
