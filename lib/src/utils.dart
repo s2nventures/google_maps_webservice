@@ -1,8 +1,9 @@
 library google_maps_webservice.utils;
 
 import 'dart:async';
-import 'package:meta/meta.dart';
+
 import 'package:http/http.dart';
+import 'package:meta/meta.dart';
 
 const kGMapsUrl = 'https://maps.googleapis.com/maps/api';
 
@@ -16,21 +17,28 @@ abstract class GoogleWebService {
   @protected
   final String _apiKey;
 
+  @protected
+  final Map<String, String> _headers;
+
   String get url => _url;
 
   Client get httpClient => _httpClient;
 
   String get apiKey => _apiKey;
 
+  Map<String, String> get headers => _headers;
+
   GoogleWebService({
     String apiKey,
     String baseUrl,
     @required String url,
     Client httpClient,
+    Map<String, String> headers,
   })  : assert(url != null),
         _url = '${baseUrl ?? kGMapsUrl}$url',
         _httpClient = httpClient ?? Client(),
-        _apiKey = apiKey;
+        _apiKey = apiKey,
+        _headers = headers;
 
   @protected
   String buildQuery(Map<String, dynamic> params) {
@@ -50,13 +58,22 @@ abstract class GoogleWebService {
   void dispose() => httpClient.close();
 
   @protected
-  Future<Response> doGet(String url) => httpClient.get(url);
+  Future<Response> doGet(String url) => httpClient.get(
+        url,
+        headers: _headers,
+      );
 
   @protected
   Future<Response> doPost(String url, String body) {
-    return httpClient.post(url, body: body, headers: {
+    final headers = {
       'Content-type': 'application/json',
-    });
+    };
+
+    if (_headers != null) {
+      headers.addAll(_headers);
+    }
+
+    return httpClient.post(url, body: body, headers: headers);
   }
 }
 
