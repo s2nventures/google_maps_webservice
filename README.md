@@ -1,9 +1,18 @@
 # google_maps_webservice
 
 [![Build Status](https://travis-ci.org/lejard-h/google_maps_webservice.svg?branch=master)](https://travis-ci.org/lejard-h/google_maps_webservice)
-[![Coverage Status](https://coveralls.io/repos/github/lejard-h/google_maps_webservice/badge.svg?branch=master)](https://coveralls.io/github/lejard-h/google_maps_webservice?branch=master)
+[![codecov](https://codecov.io/gh/lejard-h/google_maps_webservice/branch/master/graph/badge.svg)](https://codecov.io/gh/lejard-h/google_maps_webservice)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/HLejard?locale.x=fr_FR)
 
 Google Maps Web Services [API](https://developers.google.com/maps/web-services)
+
+## API key
+
+To use this library you need a ***Web*** API key. [Here](https://developers.google.com/places/web-service/get-api-key)
+
+This is not compatible with Android and iOS API key but can be use inside a Flutter app.
+
+## Availables API
 
 - [x] [Geocoding](https://developers.google.com/maps/documentation/geocoding/start)
 - [ ] [Places](https://developers.google.com/places/web-service/)
@@ -12,15 +21,15 @@ Google Maps Web Services [API](https://developers.google.com/maps/web-services)
     - [x] details
     - [ ] add
     - [ ] delete
-    - [ ] photo
+    - [x] photo
     - [x] autocomplete
     - [x] queryautocomplete
 - [x] [Directions](https://developers.google.com/maps/documentation/directions/)
-- [ ] [Distance Matrix](https://developers.google.com/maps/documentation/distance-matrix/)
+- [x] [Distance Matrix](https://developers.google.com/maps/documentation/distance-matrix/)
 - [ ] [Geolocation](https://developers.google.com/maps/documentation/geolocation/intro)
 - [ ] [Elevation](https://developers.google.com/maps/documentation/elevation/start)
 - [ ] [Roads](https://developers.google.com/maps/documentation/roads/intro)
-- [ ] [Timezone](https://developers.google.com/maps/documentation/timezone/start)
+- [x] [Timezone](https://developers.google.com/maps/documentation/timezone/start)
 
 
 ## Usage
@@ -52,6 +61,20 @@ PlacesSearchResponse reponse = await places.searchByText("123 Main Street");
 
 PlacesDetailsResponse response = await places.getDetailsByPlaceId("PLACE_ID");
 PlacesDetailsResponse response = await places.getDetailsByReference("REF");
+```
+
+### Timezone
+
+```dart
+import "package:google_maps_webservice/timezone.dart";
+
+final timezone = new GoogleMapsTimezone(apiKey: "<API_KEY>");
+final timezone = new GoogleMapsTimezone(apiKey: "<API_KEY>", httpClient: new BrowserClient());
+final timezone = new GoogleMapsTimezone(baseUrl: "http://myProxy.com");
+
+TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421));
+TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421), timestamp: DateTime.utc(2019, 4, 24));
+TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421), timestamp: DateTime.utc(2019, 4, 24), language: 'es');
 ```
 
 ### Proxy

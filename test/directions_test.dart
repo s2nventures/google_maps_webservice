@@ -1,16 +1,12 @@
-library google_maps_webservice.directions.test;
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:google_maps_webservice/src/core.dart';
 import 'package:google_maps_webservice/src/directions.dart';
-import 'package:http/http.dart';
 import 'package:test/test.dart';
 
-Future<void> launch([Client client]) async {
+Future<void> main() async {
   final apiKey = 'MY_API_KEY';
-  GoogleMapsDirections directions =
-      GoogleMapsDirections(apiKey: apiKey, httpClient: client);
+  GoogleMapsDirections directions = GoogleMapsDirections(apiKey: apiKey);
 
   tearDownAll(() {
     directions.dispose();
@@ -138,6 +134,17 @@ Future<void> launch([Client client]) async {
                 'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&departure_time=$d&key=$apiKey'));
       });
 
+      test('departure_time with now', () {
+        expect(
+            directions.buildUrl(
+                origin: 'Toronto',
+                destination: 'Montreal',
+                departureTime: 'now'),
+            equals(
+              'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&departure_time=now&key=$apiKey',
+            ));
+      });
+
       test('arrival_time', () {
         int d = 1343641500;
         expect(
@@ -254,6 +261,21 @@ Future<void> launch([Client client]) async {
                 ]),
             equals(
                 'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&waypoints=optimize:true|Paris|42.2,21.3|place_id:ChIJ3S-JXmauEmsRUcIaWtf4MzE|enc:gfo}EtohhU:&key=$apiKey'));
+      });
+
+      test('alternatives', () {
+        expect(
+            directions.buildUrl(
+                origin: 'Toronto', destination: 'Montreal', alternatives: true),
+            equals(
+                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=true&key=$apiKey'));
+        expect(
+            directions.buildUrl(
+                origin: 'Toronto',
+                destination: 'Montreal',
+                alternatives: false),
+            equals(
+                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=false&key=$apiKey'));
       });
     });
 
@@ -437,5 +459,3 @@ final _responseExample = '''
   } ]
 }
 ''';
-
-Future<void> main() => launch();
